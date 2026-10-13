@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LibraryHub | Book Management</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header class="header">
+        <a href="#home" class="logo">
+            <span class="logo-mark">L</span>
+            <span>Library<span class="logo-light">Hub</span></span>
+        </a>
+
+        <nav>
+            <a href="#home" class="nav-active">Dashboard</a>
+            <a href="#add-book">Add Book</a>
+            <a href="#books">Collection</a>
+            <a href="#json-section">JSON Data</a>
+        </nav>
+
+        <div class="admin">
+            <div class="admin-avatar">LM</div>
+            <div>
+                <strong>Library Admin</strong>
+                <small>Administrator</small>
+            </div>
+        </div>
+    </header>
+
+    <main id="home">
+
+        <section class="page-heading">
+            <div>
+                <p class="breadcrumb">HOME / DASHBOARD</p>
+                <h1>Library Dashboard</h1>
+                <p class="subheading">
+                    Organize your books and keep your collection up to date.
+                </p>
+            </div>
+
+            <a href="#add-book" class="add-link">+ Add New Book</a>
+        </section>
+
+        <section class="welcome">
+            <div class="welcome-text">
+                <span class="welcome-label">YOUR LIBRARY AT A GLANCE</span>
+                <h2>A place for every book.</h2>
+                <p>
+                    Manage your collection, maintain book details,
+                    and find records whenever you need them.
+                </p>
+                <a href="#books">View book collection &rarr;</a>
+            </div>
+
+            <div class="welcome-art" aria-hidden="true">
+                <div class="shelf"></div>
+                <div class="book book-a"></div>
+                <div class="book book-b"></div>
+                <div class="book book-c"></div>
+                <div class="book book-d"></div>
+                <div class="book book-e"></div>
+            </div>
+        </section>
+
+        <section class="stats">
+            <article class="stat-card">
+                <div class="stat-top">
+                    <span class="stat-icon blue-icon">▤</span>
+                    <span class="stat-label">COLLECTION</span>
+                </div>
+                <p>Total Books</p>
+                <h2 id="totalBooks">0</h2>
+                <small>Books currently recorded</small>
+            </article>
+
+            <article class="stat-card">
+                <div class="stat-top">
+                    <span class="stat-icon green-icon">✎</span>
+                    <span class="stat-label">AUTHORS</span>
+                </div>
+                <p>Unique Authors</p>
+                <h2 id="totalAuthors">0</h2>
+                <small>Different authors in the library</small>
+            </article>
+
+            <article class="stat-card">
+                <div class="stat-top">
+                    <span class="stat-icon amber-icon">◷</span>
+                    <span class="stat-label">PUBLICATION</span>
+                </div>
+                <p>Latest Publication</p>
+                <h2 id="latestYear">—</h2>
+                <small>Newest publication year recorded</small>
+            </article>
+        </section>
+
+        <section class="workspace">
+
+            <section class="panel form-panel" id="add-book">
+                <div class="section-heading">
+                    <div>
+                        <span class="section-label">BOOK MANAGEMENT</span>
+                        <h2 id="formTitle">Add a Book</h2>
+                    </div>
+                    <span class="heading-symbol">+</span>
+                </div>
+
+                <p class="panel-description">
+                    Fill in the information to add a book to the collection.
+                </p>
+
+                <form id="bookForm" novalidate>
+                    <div class="field">
+                        <label for="title">Book Title <span>*</span></label>
+                        <input type="text" id="title" placeholder="Enter the book title" maxlength="100">
+                    </div>
+
+                    <div class="field">
+                        <label for="author">Author Name <span>*</span></label>
+                        <input type="text" id="author" placeholder="Enter the author's name" maxlength="80">
+                    </div>
+
+                    <div class="field">
+                        <label for="isbn">ISBN Number <span>*</span></label>
+                        <input type="text" id="isbn" placeholder="10 or 13 digit ISBN" maxlength="17">
+                        <small class="field-help">Enter digits only or use standard ISBN hyphens.</small>
+                    </div>
+
+                    <div class="field">
+                        <label for="year">Publication Year <span>*</span></label>
+                        <input type="number" id="year" placeholder="e.g. 2022">
+                    </div>
+
+                    <p id="error" class="message" role="alert" aria-live="polite"></p>
+
+                    <button type="submit" class="primary-button" id="saveBtn">
+                        + Add Book to Collection
+                    </button>
+
+                    <button type="button" class="cancel-button" id="cancelBtn" hidden>Cancel Editing</button>
+                </form>
+
+                <div class="form-footer">
+                    <span>i</span>
+                    Please complete all fields before saving the record.
+                </div>
+            </section>
+
+            <section class="panel inventory-panel" id="books">
+                <div class="section-heading inventory-heading">
+                    <div>
+                        <span class="section-label">LIBRARY RECORDS</span>
+                        <h2>Book Collection</h2>
+                    </div>
+                    <span class="record-count" id="recordCount">0 records</span>
+                </div>
+
+                <div class="search-row">
+                    <div class="search-input">
+                        <span class="search-symbol">&#8981;</span>
+                        <input type="text" id="search" placeholder="Search title, author or ISBN...">
+                    </div>
+                </div>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>BOOK INFORMATION</th>
+                                <th>ISBN NUMBER</th>
+                                <th>YEAR</th>
+                                <th>ACTIONS</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bookList"></tbody>
+                    </table>
+                </div>
+
+                <div class="empty-state" id="emptyState">
+                    <div class="empty-symbol">▤</div>
+                    <h3>No books added yet</h3>
+                    <p>Your book records will appear here after you add a book.</p>
+                    <a href="#add-book">Add your first book</a>
+                </div>
+
+                <div class="table-footer">
+                    <span id="resultsText">Showing 0 books</span>
+                    <span>Library inventory</span>
+                </div>
+            </section>
+        </section>
+
+        <section class="panel json-panel" id="json-section">
+            <div class="json-heading">
+                <div>
+                    <span class="section-label">JAVASCRIPT &amp; JSON</span>
+                    <h2>Data Preview</h2>
+                    <p>View the book records converted into JSON format.</p>
+                </div>
+
+                <button type="button" id="showJson" class="outline-button">
+                    { } Show JSON Data
+                </button>
+            </div>
+
+            <pre id="jsonData" hidden></pre>
+        </section>
+
+        <footer>
+
+        </footer>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
